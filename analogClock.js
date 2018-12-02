@@ -2,7 +2,10 @@
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 ctx.translate(canvas.height / 2, canvas.width/2); // ustawienie punktu 0,0 w środku canvas, skraca długość kodu i zwiększa jego czytelność
-
+let time = new Date;
+let seconds =  time.getSeconds(); // aktualny czas ustawiany jest tylko jeden raz...
+let minutes =  time.getMinutes(); // ...uniezależnienie czasu zegara od aktualnego czasu...
+let hours =  time.getHours();     // ...umożliwi to zmianę godziny na zegarze 
 setInterval(showClock, 1000);
     
 function showClock() {
@@ -10,7 +13,6 @@ function showClock() {
 
     let ang;
     let radius = canvas.height / 2; //obliczenie promienia zegara 
-    let time = new Date;
     radius = radius * 0.90 //zmiejszenie promienia o 10% aby okrąg zawierał się w canvasie
     ctx.clearRect(-canvas.height / 2,-canvas.width/2,canvas.width,canvas.height); //teoretycznie niepotrzebe ale uzyskuje się tym lepszy efekt wizualny
         
@@ -85,40 +87,58 @@ function drawMarks()
 
 function drawSecondsHand()
 {
-    ctx.lineWidth = 1.5;
-    let seconds =  time.getSeconds();
+    ctx.lineWidth = 1.5;  
     ang = Math.PI * 2* (seconds/60) - Math.PI/2;
     ctx.beginPath();
     ctx.moveTo(0,0);
     ctx.lineTo(Math.cos(ang)*radius*0.9,Math.sin(ang)*radius*0.9);
     ctx.strokeStyle = '#586A73';        
     ctx.stroke();
-
+    seconds++;
+    if(seconds == 60)
+    {
+        seconds=0;
+    }
 }
 
 function drawMinutesHand()
 {
+    let mHand = document.createElement("mHand");
     ctx.lineWidth = 2.5;
-    let minutes =  time.getMinutes();
+    
     ang = (Math.PI * 2* (minutes/60)) - Math.PI/2;
     ctx.beginPath();
     ctx.moveTo(0,0);
     ctx.lineTo((Math.cos(ang)*radius*0.75),Math.sin(ang)*radius*0.75);
     ctx.strokeStyle = '#586A73';        
     ctx.stroke();
-
+    if(seconds==59)
+    {
+        minutes++
+        if(minutes==60)
+        {
+            minutes=0;
+        }
+    }
 }
 
 function drawHoursHand()
 {
     ctx.lineWidth = 4;
-    let hours =  time.getHours();
+    
     ang = (Math.PI * 2* (hours/12)) - Math.PI/2;
     ctx.beginPath();
     ctx.moveTo(0,0);
     ctx.lineTo((Math.cos(ang)*radius*0.45),Math.sin(ang)*radius*0.45);
     ctx.strokeStyle = '#586A73';        
     ctx.stroke();
-
+    if(minutes==59)
+    {
+        hours++
+        if(hours==12)
+        {
+            minutes=0;
+        }
+    }
 }
 }
