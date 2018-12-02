@@ -91,7 +91,9 @@ function drawSecondsHand()
     ang = Math.PI * 2* (seconds/60) - Math.PI/2;
     ctx.beginPath();
     ctx.moveTo(0,0);
-    ctx.lineTo(Math.cos(ang)*radius*0.9,Math.sin(ang)*radius*0.9);
+    let x = Math.cos(ang)*radius*0.9;
+    let y = Math.sin(ang)*radius*0.9;
+    ctx.lineTo(x,y);
     ctx.strokeStyle = '#586A73';        
     ctx.stroke();
     seconds++;
@@ -103,13 +105,32 @@ function drawSecondsHand()
 
 function drawMinutesHand()
 {
-    let mHand = document.createElement("mHand");
+    
     ctx.lineWidth = 2.5;
     
+    onmousedown = function()
+    {
+        xpos = this.event.clientX - canvas.width/2;
+        ypos = this.event.clientY - canvas.height/2;
+        if(xpos<0)
+        {
+            ang =  Math.atan(ypos/xpos)-Math.PI;
+        }
+        else
+        {
+            ang =  Math.atan(ypos/xpos);
+        }  
+        minutes = Math.round((30*ang)/Math.PI +15);         
+    }
     ang = (Math.PI * 2* (minutes/60)) - Math.PI/2;
+    
+    
     ctx.beginPath();
     ctx.moveTo(0,0);
-    ctx.lineTo((Math.cos(ang)*radius*0.75),Math.sin(ang)*radius*0.75);
+    
+    let x = Math.cos(ang)*radius*0.75;
+    let y = Math.sin(ang)*radius*0.75;   
+    ctx.lineTo(x,y);
     ctx.strokeStyle = '#586A73';        
     ctx.stroke();
     if(seconds==59)
@@ -124,15 +145,18 @@ function drawMinutesHand()
 
 function drawHoursHand()
 {
+    
     ctx.lineWidth = 4;
     
     ang = (Math.PI * 2* (hours/12)) - Math.PI/2;
     ctx.beginPath();
     ctx.moveTo(0,0);
-    ctx.lineTo((Math.cos(ang)*radius*0.45),Math.sin(ang)*radius*0.45);
+    let x = Math.cos(ang)*radius*0.45;
+    let y = Math.sin(ang)*radius*0.45;
+    ctx.lineTo(x,y);
     ctx.strokeStyle = '#586A73';        
     ctx.stroke();
-    if(minutes==59)
+    if(minutes==59 && seconds==59)
     {
         hours++
         if(hours==12)
