@@ -3,6 +3,7 @@ let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 ctx.translate(canvas.height / 2, canvas.width/2); // ustawienie punktu 0,0 w środku canvas, skraca długość kodu i zwiększa jego czytelność
 let time = new Date;
+let flag = 'notchosen';
 let seconds =  time.getSeconds(); // aktualny czas ustawiany jest tylko jeden raz...
 let minutes =  time.getMinutes(); // ...uniezależnienie czasu zegara od aktualnego czasu...
 let hours =  time.getHours();     // ...umożliwi to zmianę godziny na zegarze 
@@ -70,7 +71,7 @@ function drawMarks()
         let y2 =  Math.sin(ang) * (radius - (radius / 30));
         ctx.strokeStyle = '#C4D1D5';
 
-        if(i%5===0)
+        if(i%5===0)  // co piąty znacznik ma być dłuższy i grubszy 
         {
             ctx.lineWidth = 1.5; 
             x2 =   Math.cos(ang) * (radius - (radius / 15));
@@ -107,21 +108,8 @@ function drawMinutesHand()
 {
     
     ctx.lineWidth = 2.5;
+    ctx.strokeStyle = '#586A73';
     
-    onmousedown = function()
-    {
-        xpos = this.event.clientX - canvas.width/2;
-        ypos = this.event.clientY - canvas.height/2;
-        if(xpos<0)
-        {
-            ang =  Math.atan(ypos/xpos)-Math.PI;
-        }
-        else
-        {
-            ang =  Math.atan(ypos/xpos);
-        }  
-        minutes = Math.round((30*ang)/Math.PI +15);         
-    }
     ang = (Math.PI * 2* (minutes/60)) - Math.PI/2;
     
     
@@ -131,7 +119,7 @@ function drawMinutesHand()
     let x = Math.cos(ang)*radius*0.75;
     let y = Math.sin(ang)*radius*0.75;   
     ctx.lineTo(x,y);
-    ctx.strokeStyle = '#586A73';        
+            
     ctx.stroke();
     if(seconds==59)
     {
@@ -165,4 +153,92 @@ function drawHoursHand()
         }
     }
 }
+onmousedown = function()
+    {    
+        if(flag  == 'notchosen')
+        {
+            chooseHand();                     
+        }      
+    }
+    onmouseup = function()
+    {
+        if(flag == 'h-hand')
+        {          
+            setHour();
+        }
+        if(flag == 'm-hand')
+        {       
+            setMinute();
+        }
+    }
+    function chooseHand()
+    {      
+        xpos = this.event.clientX - canvas.width/2;
+        ypos = this.event.clientY - canvas.height/2;
+        
+        if(xpos<0)
+        {
+            ang =  Math.atan(ypos/xpos)+Math.PI;
+        }
+        else
+        {
+            ang =  Math.atan(ypos/xpos);
+        }  
+        tmp = Math.round((30*ang)/Math.PI +15);
+        
+        tmp2 = Math.round((6*ang)/Math.PI +3); 
+        if(tmp<minutes+2 && tmp>minutes-2)   // dzięki temu nie trzeba trafić idealnie w wskazówkę żeby ją wybrać      
+        { 
+            flag = 'm-hand';                       
+        }
+        let englishformathour = hours;
+        if(englishformathour>=12) //problem ten nie pojawiłby się w przypadku korzystania z 12 godzinnego systemu
+        {
+            englishformathour -= 12; // 20 ==> 8, 21==>9 itd
+        }
+        
+        
+        if(tmp2<englishformathour+1 && tmp2>englishformathour-1)        
+        {           
+            flag = 'h-hand';   
+        }
+    }
+
+    function setHour()
+    {
+        
+        xpos = this.event.clientX - canvas.width/2;
+        ypos = this.event.clientY - canvas.height/2;
+        
+        if(xpos<0)
+        {
+            ang =  Math.atan(ypos/xpos)+Math.PI;
+        }
+        else
+        {
+            ang =  Math.atan(ypos/xpos);
+        }  
+        
+        hours = Math.round((6*ang)/Math.PI +3); 
+        
+        flag  = 'notchosen';
+    }
+
+    function setMinute()
+    {
+        xpos = this.event.clientX - canvas.width/2;
+        ypos = this.event.clientY - canvas.height/2;
+        
+        if(xpos<0)
+        {
+            ang =  Math.atan(ypos/xpos)+Math.PI;
+        }
+        else
+        {
+            ang =  Math.atan(ypos/xpos);
+        }  
+        minutes = Math.round((30*ang)/Math.PI +15);
+        flag  = 'notchosen';
+    }
+    
 }
