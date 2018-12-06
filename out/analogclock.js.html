@@ -30,25 +30,42 @@
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 ctx.translate(canvas.height / 2, canvas.width/2); // sets point 0,0 in center of the canvas
+let time = new Date;
 let choosenFlag = 'notchosen';
-let seconds =  time.getSeconds(); // Acutal time is set only once...
-let minutes =  time.getMinutes(); // ...clock time is indepented from actual time...
-let hours =  time.getHours();     // ...which allows to change time.  
+/**
+ * Represent acutal second,set only once to allow changable time
+ */
+let seconds =  time.getSeconds(); 
+/**
+ * Represent acutal minute,set only once to allow changable time
+ */
+let minutes =  time.getMinutes(); 
+/**
+ * Represent acutal hour,set only once to allow changable time
+ */
+let hours =  time.getHours();     
 setInterval(showClock, 1000);
     
-function showClock() {
+// function showClock() MUST NOT BE COMMENTED BUT ITS WAS NECCESARY TO GENERATE DOCUMENTATION
+// {
         
-
+/**
+ * Represent angle between center of the clock and destination point
+ */
     let ang;
-    let radius = canvas.height / 2; // calcualtes clock radius
+/**
+ * Represent radius of the clock. Most of the parts of the clock base on this value
+ */
+    let radius = canvas.height / 2; 
     radius = radius * 0.90 
-    ctx.clearRect(-canvas.height / 2,-canvas.width/2,canvas.width,canvas.height); // unnecessary, but provide better visual efect 
+    ctx.clearRect(-canvas.height / 2,-canvas.width/2,canvas.width,canvas.height); //unnecessary but provides better visual efect
         
     drawClockBasicFace();
     drawMarks();
     drawHoursHand();
-    drawMinutesHand();   
+    drawMinutesHand();
     drawSecondsHand();
+        
 
 
 /**
@@ -57,19 +74,19 @@ function showClock() {
  */
 function drawClockBasicFace()
 {
-    // Clock Field
+    // field of clock
     ctx.beginPath();
     ctx.arc(0, 0, radius, 0 , 2*Math.PI);
     ctx.fillStyle = "white";
     ctx.fill();
 
-    // Center of clock
+    // center of the clock
     ctx.beginPath();
     ctx.arc(0,0,radius*0.025,0,2*Math.PI);
     ctx.fillStyle = '#456';
     ctx.fill();  
 
-    // Numbers of clock
+    // clock numbers
     ctx.font = radius*0.1 + "px arial";
     ctx.textBaseline="middle";
     ctx.textAlign="center";
@@ -80,6 +97,9 @@ function drawClockBasicFace()
         let x1 = Math.cos(ang)*radius*0.85;
         ctx.fillText(num.toString(), x1, y1);
     }   
+
+    
+
 }
 
 /**
@@ -194,16 +214,16 @@ function drawHoursHand()
         hours++
         if(hours==12)
         {
-            hours=0;
+            minutes=0;
         }
     }
 }
+//}  
     
-    
-}
+
 /**
  * On mouse down function check 
- * if any hand had been choosen.
+ * if any hand had been choosen
  * if not, function chooseHand is called.
  */
 onmousedown = function()
@@ -217,7 +237,7 @@ onmousedown = function()
     }
     /**
      * Based on which hand had been choosen 
-     * sets call setHour or setMinute function.
+     * calls setHour or setMinute function.
      */
 onmouseup = function()
     {
@@ -235,31 +255,42 @@ onmouseup = function()
 
 /**
  * Calcutales if mouse cursor is near one of the clock hands,
- * f true, sets choosenFlag to corresponding hand.
+ * if true, sets choosenFlag to corresponding hand.
  * @param {number} xpos - x position of cursor
  * @param {number} ypos - y position of cursor
  */
 function chooseHand(xpos,ypos)
     {      
-        ang = calculateAngle(xpos,ypos);
-
+        
+        
+        if(xpos&lt;0)
+        {
+            ang =  Math.atan(ypos/xpos)+Math.PI;
+        }
+        else
+        {
+            ang =  Math.atan(ypos/xpos);
+        }  
         tmp = Math.round((30*ang)/Math.PI +15);
         
         tmp2 = Math.round((6*ang)/Math.PI +3); 
-
-        if(tmp&lt;minutes+2 &amp;&amp; tmp>minutes-2)   // Minute hand is easier to click on     
+        if(tmp&lt;minutes+2 &amp;&amp; tmp>minutes-2)   // easier to click on hand     
         { 
-            choosenFlag = 'm-hand';                       
+            
+            choosenFlag = 'm-hand';     
+            console.log(flag);           
         }
         let englishformathour = hours;
         if(englishformathour>=12) 
         {
-            englishformathour -= 12; // 20 ==> 8, 21==>9 etc
+            englishformathour -= 12; // 20 ==> 8, 21==>9 itd
         }
-
+        
+        
         if(tmp2&lt;englishformathour+1 &amp;&amp; tmp2>englishformathour-1)        
         {           
             choosenFlag = 'h-hand';   
+            console.log(flag);   
         }
     }
 /**
@@ -283,8 +314,9 @@ function chooseHand(xpos,ypos)
      */
     function setMinute(xpos,ypos)
     {
-        ang = calculateAngle(xpos,ypos);
-        minutes = Math.round((30*ang)/Math.PI +15);
+        
+        ang = calculateAngle(xpos,ypos);    
+        minutes = Math.round((30*ang)/Math.PI +15);        
         choosenFlag  = 'notchosen';
     }
 
@@ -295,7 +327,8 @@ function chooseHand(xpos,ypos)
  * @param {number} ypos - y position of cursor
  */
     function calculateAngle(xpos,ypos)
-    {
+    {     
+        
         if(xpos&lt;0)
         {
             ang =  Math.atan(ypos/xpos)+Math.PI;
@@ -303,9 +336,13 @@ function chooseHand(xpos,ypos)
         else
         {
             ang =  Math.atan(ypos/xpos);
-        }
+        }  
         return ang;
-    }</code></pre>
+        
+    }
+    
+
+</code></pre>
         </article>
     </section>
 
@@ -315,13 +352,13 @@ function chooseHand(xpos,ypos)
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#calculateAngle">calculateAngle</a></li><li><a href="global.html#chooseHand">chooseHand</a></li><li><a href="global.html#onmousedown">onmousedown</a></li><li><a href="global.html#onmouseup">onmouseup</a></li><li><a href="global.html#setHour">setHour</a></li><li><a href="global.html#setMinute">setMinute</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ang">ang</a></li><li><a href="global.html#calculateAngle">calculateAngle</a></li><li><a href="global.html#chooseHand">chooseHand</a></li><li><a href="global.html#drawClockBasicFace">drawClockBasicFace</a></li><li><a href="global.html#drawHoursHand">drawHoursHand</a></li><li><a href="global.html#drawMarks">drawMarks</a></li><li><a href="global.html#drawMinutesHand">drawMinutesHand</a></li><li><a href="global.html#drawSecondsHand">drawSecondsHand</a></li><li><a href="global.html#hours">hours</a></li><li><a href="global.html#minutes">minutes</a></li><li><a href="global.html#onmousedown">onmousedown</a></li><li><a href="global.html#onmouseup">onmouseup</a></li><li><a href="global.html#radius">radius</a></li><li><a href="global.html#seconds">seconds</a></li><li><a href="global.html#setHour">setHour</a></li><li><a href="global.html#setMinute">setMinute</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Dec 06 2018 21:16:55 GMT+0100 (GMT+01:00)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Dec 06 2018 23:00:39 GMT+0100 (GMT+01:00)
 </footer>
 
 <script> prettyPrint(); </script>

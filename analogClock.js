@@ -1,20 +1,36 @@
 
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
-ctx.translate(canvas.height / 2, canvas.width/2); // ustawienie punktu 0,0 w środku canvas, skraca długość kodu i zwiększa jego czytelność
+ctx.translate(canvas.height / 2, canvas.width/2); // sets point 0,0 in center of the canvas
 let time = new Date;
 let choosenFlag = 'notchosen';
-let seconds =  time.getSeconds(); // Acutal time is set only once, so
-let minutes =  time.getMinutes(); // ...clock time is independent from it, which...
-let hours =  time.getHours();     // ...allows to change time.
+/**
+ * Represent acutal second,set only once to allow changable time
+ */
+let seconds =  time.getSeconds(); 
+/**
+ * Represent acutal minute,set only once to allow changable time
+ */
+let minutes =  time.getMinutes(); 
+/**
+ * Represent acutal hour,set only once to allow changable time
+ */
+let hours =  time.getHours();     
 setInterval(showClock, 1000);
     
-function showClock() 
-{
-        
+ function showClock() 
+ {
 
+ 
+        
+/**
+ * Represent angle between center of the clock and destination point
+ */
     let ang;
-    let radius = canvas.height / 2; //calculates radius of the clock
+/**
+ * Represent radius of the clock. Most of the parts of the clock base on this value
+ */
+    let radius = canvas.height / 2; 
     radius = radius * 0.90 
     ctx.clearRect(-canvas.height / 2,-canvas.width/2,canvas.width,canvas.height); //unnecessary but provides better visual efect
         
@@ -195,7 +211,7 @@ onmousedown = function()
     }
     /**
      * Based on which hand had been choosen 
-     * sets call setHour or setMinute function.
+     * calls setHour or setMinute function.
      */
 onmouseup = function()
     {
