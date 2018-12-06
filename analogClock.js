@@ -24,8 +24,8 @@ function showClock() {
 
 
 /**
- * Draw basic clock face
- * Clock field, center of the clock and numbers
+ * Draw basic clock face:
+ *  clock field, center of the clock and numbers
  */
 function drawClockBasicFace()
 {
@@ -56,7 +56,7 @@ function drawClockBasicFace()
 
 /**
  * Draw 60 time marks
- * every 5 is thicker and darker
+ * every 5 is thicker and darker.
  */
 function drawMarks() 
 {
@@ -90,8 +90,8 @@ function drawMarks()
 }
 /**
  * Draw second hand 
- * Clock filed is divided into 60 parts
- * Angle is calculated based on actual second
+ * clock filed is divided into 60 parts,
+ * angle is calculated based on actual second.
  */
 function drawSecondsHand()
 {
@@ -112,9 +112,9 @@ function drawSecondsHand()
 }
 
 /**
- * Draw minute hand 
- * Clock filed is divided into 60 parts
- * Angle is calculated based on actual minute
+ * Draw minute hand,
+ * clock filed is divided into 60 parts,
+ * angle is calculated based on actual minute.
  */
 function drawMinutesHand()
 {
@@ -144,9 +144,9 @@ function drawMinutesHand()
 }
 
 /**
- * Draw hour hand 
- * Clock filed is divided into 12 parts
- * Angle is calculated based on actual hour
+ * Draw hour hand,
+ * clock filed is divided into 12 parts,
+ * angle is calculated based on actual hour.
  */
 function drawHoursHand()
 {
@@ -175,8 +175,8 @@ function drawHoursHand()
 }
 /**
  * On mouse down function check 
- * if any hand had been choosen.
- * If not, function chooseHand is called
+ * if any hand had been choosen
+ * if not, function chooseHand is called.
  */
 onmousedown = function()
     {    
@@ -189,8 +189,7 @@ onmousedown = function()
     }
     /**
      * Based on which hand had been choosen 
-     * Sets corresponding hand to acutal
-     * position of mouse cursor
+     * sets call setHour or setMinute function.
      */
 onmouseup = function()
     {
@@ -207,8 +206,8 @@ onmouseup = function()
     }
 
 /**
- * Calcutales if mouse cursor is near one of the clock hands
- * If true, sets choosenFlag to corresponding hand
+ * Calcutales if mouse cursor is near one of the clock hands,
+ * f true, sets choosenFlag to corresponding hand.
  * @param {number} xpos - x position of cursor
  * @param {number} ypos - y position of cursor
  */
@@ -237,7 +236,7 @@ function chooseHand(xpos,ypos)
     }
 /**
  * Set hour based on angle between acutal mouse position
- * and center of the clock
+ * and center of the clock.
  * @param {number} xpos - x position of cursor
  * @param {number} ypos - y position of cursor
  */
@@ -250,7 +249,7 @@ function chooseHand(xpos,ypos)
 
     /**
      * Set minute based on angle between acutal mouse position
-     * and center of the clock
+     * and center of the clock.
      * @param {number} xpos - x position of cursor
      * @param {number} ypos - y position of cursor
      */
@@ -263,7 +262,7 @@ function chooseHand(xpos,ypos)
 
 /**
  * Calcutales angle between actual mouse position 
- * and center of the clock
+ * and center of the clock.
  * @param {number} xpos - x position of cursor
  * @param {number} ypos - y position of cursor
  */
