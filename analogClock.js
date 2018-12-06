@@ -1,47 +1,52 @@
 
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
-ctx.translate(canvas.height / 2, canvas.width/2); // sets point 0,0 in center of the canvas
-let choosenFlag = 'notchosen';
-let seconds =  time.getSeconds(); // Acutal time is set only once...
-let minutes =  time.getMinutes(); // ...clock time is indepented from actual time...
-let hours =  time.getHours();     // ...which allows to change time.  
+ctx.translate(canvas.height / 2, canvas.width/2); // ustawienie punktu 0,0 w środku canvas, skraca długość kodu i zwiększa jego czytelność
+let time = new Date;
+let flag = 'notchosen';
+let seconds =  time.getSeconds(); // aktualny czas ustawiany jest tylko jeden raz...
+let minutes =  time.getMinutes(); // ...uniezależnienie czasu zegara od aktualnego czasu...
+let hours =  time.getHours();     // ...umożliwi to zmianę godziny na zegarze 
 setInterval(showClock, 1000);
     
 function showClock() {
         
 
     let ang;
-    let radius = canvas.height / 2; // calcualtes clock radius
-    radius = radius * 0.90 
-    ctx.clearRect(-canvas.height / 2,-canvas.width/2,canvas.width,canvas.height); // unnecessary, but provide better visual efect 
+    let radius = canvas.height / 2; //obliczenie promienia zegara 
+    radius = radius * 0.90 //zmiejszenie promienia o 10% aby okrąg zawierał się w canvasie
+    ctx.clearRect(-canvas.height / 2,-canvas.width/2,canvas.width,canvas.height); //teoretycznie niepotrzebe ale uzyskuje się tym lepszy efekt wizualny
         
     drawClockBasicFace();
     drawMarks();
     drawHoursHand();
-    drawMinutesHand();   
+    drawMinutesHand();
     drawSecondsHand();
+        
 
 
+<<<<<<< HEAD
 /**
  * Draw basic clock face:
  *  clock field, center of the clock and numbers
  */
+=======
+>>>>>>> parent of db273de... Created basic documentation
 function drawClockBasicFace()
 {
-    // Clock Field
+    // pole zegara
     ctx.beginPath();
     ctx.arc(0, 0, radius, 0 , 2*Math.PI);
     ctx.fillStyle = "white";
     ctx.fill();
 
-    // Center of clock
+    // środek zegara
     ctx.beginPath();
     ctx.arc(0,0,radius*0.025,0,2*Math.PI);
     ctx.fillStyle = '#456';
     ctx.fill();  
 
-    // Numbers of clock
+    // cyfry zegara
     ctx.font = radius*0.1 + "px arial";
     ctx.textBaseline="middle";
     ctx.textAlign="center";
@@ -52,12 +57,18 @@ function drawClockBasicFace()
         let x1 = Math.cos(ang)*radius*0.85;
         ctx.fillText(num.toString(), x1, y1);
     }   
+
+    
+
 }
 
+<<<<<<< HEAD
 /**
  * Draw 60 time marks
  * every 5 is thicker and darker.
  */
+=======
+>>>>>>> parent of db273de... Created basic documentation
 function drawMarks() 
 {
     
@@ -74,7 +85,7 @@ function drawMarks()
         let y2 =  Math.sin(ang) * (radius - (radius / 30));
         ctx.strokeStyle = '#C4D1D5';
 
-        if(i%5===0)  
+        if(i%5===0)  // co piąty znacznik ma być dłuższy i grubszy 
         {
             ctx.lineWidth = 1.5; 
             x2 =   Math.cos(ang) * (radius - (radius / 15));
@@ -88,11 +99,15 @@ function drawMarks()
         ctx.stroke();
     }
 }
+<<<<<<< HEAD
 /**
  * Draw second hand 
  * clock filed is divided into 60 parts,
  * angle is calculated based on actual second.
  */
+=======
+
+>>>>>>> parent of db273de... Created basic documentation
 function drawSecondsHand()
 {
     ctx.lineWidth = 1.5;  
@@ -111,11 +126,14 @@ function drawSecondsHand()
     }
 }
 
+<<<<<<< HEAD
 /**
  * Draw minute hand,
  * clock filed is divided into 60 parts,
  * angle is calculated based on actual minute.
  */
+=======
+>>>>>>> parent of db273de... Created basic documentation
 function drawMinutesHand()
 {
     
@@ -143,11 +161,14 @@ function drawMinutesHand()
     }
 }
 
+<<<<<<< HEAD
 /**
  * Draw hour hand,
  * clock filed is divided into 12 parts,
  * angle is calculated based on actual hour.
  */
+=======
+>>>>>>> parent of db273de... Created basic documentation
 function drawHoursHand()
 {
     
@@ -166,10 +187,11 @@ function drawHoursHand()
         hours++
         if(hours==12)
         {
-            hours=0;
+            minutes=0;
         }
     }
 }
+<<<<<<< HEAD
     
     
 }
@@ -178,32 +200,35 @@ function drawHoursHand()
  * if any hand had been choosen
  * if not, function chooseHand is called.
  */
+=======
+>>>>>>> parent of db273de... Created basic documentation
 onmousedown = function()
     {    
-        if(choosenFlag  == 'notchosen')
+        if(flag  == 'notchosen')
         {
-            xpos = this.event.clientX - canvas.width/2;
-            ypos = this.event.clientY - canvas.height/2;
-            chooseHand(xpos,ypos);                     
+            chooseHand();                     
         }      
     }
+<<<<<<< HEAD
     /**
      * Based on which hand had been choosen 
      * sets call setHour or setMinute function.
      */
 onmouseup = function()
+=======
+    onmouseup = function()
+>>>>>>> parent of db273de... Created basic documentation
     {
-        xpos = this.event.clientX - canvas.width/2;
-        ypos = this.event.clientY - canvas.height/2;
-        if(choosenFlag == 'h-hand')
+        if(flag == 'h-hand')
         {          
-            setHour(xpos,ypos);
+            setHour();
         }
-        if(choosenFlag == 'm-hand')
+        if(flag == 'm-hand')
         {       
-            setMinute(xpos,ypos);
+            setMinute();
         }
     }
+<<<<<<< HEAD
 
 /**
  * Calcutales if mouse cursor is near one of the clock hands,
@@ -212,28 +237,41 @@ onmouseup = function()
  * @param {number} ypos - y position of cursor
  */
 function chooseHand(xpos,ypos)
+=======
+    function chooseHand()
+>>>>>>> parent of db273de... Created basic documentation
     {      
-        ang = calculateAngle(xpos,ypos);
-
+        xpos = this.event.clientX - canvas.width/2;
+        ypos = this.event.clientY - canvas.height/2;
+        
+        if(xpos<0)
+        {
+            ang =  Math.atan(ypos/xpos)+Math.PI;
+        }
+        else
+        {
+            ang =  Math.atan(ypos/xpos);
+        }  
         tmp = Math.round((30*ang)/Math.PI +15);
         
         tmp2 = Math.round((6*ang)/Math.PI +3); 
-
-        if(tmp<minutes+2 && tmp>minutes-2)   // Minute hand is easier to click on     
+        if(tmp<minutes+2 && tmp>minutes-2)   // dzięki temu nie trzeba trafić idealnie w wskazówkę żeby ją wybrać      
         { 
-            choosenFlag = 'm-hand';                       
+            flag = 'm-hand';                       
         }
         let englishformathour = hours;
-        if(englishformathour>=12) 
+        if(englishformathour>=12) //problem ten nie pojawiłby się w przypadku korzystania z 12 godzinnego systemu
         {
-            englishformathour -= 12; // 20 ==> 8, 21==>9 etc
+            englishformathour -= 12; // 20 ==> 8, 21==>9 itd
         }
-
+        
+        
         if(tmp2<englishformathour+1 && tmp2>englishformathour-1)        
         {           
-            choosenFlag = 'h-hand';   
+            flag = 'h-hand';   
         }
     }
+<<<<<<< HEAD
 /**
  * Set hour based on angle between acutal mouse position
  * and center of the clock.
@@ -254,20 +292,15 @@ function chooseHand(xpos,ypos)
      * @param {number} ypos - y position of cursor
      */
     function setMinute(xpos,ypos)
-    {
-        ang = calculateAngle(xpos,ypos);
-        minutes = Math.round((30*ang)/Math.PI +15);
-        choosenFlag  = 'notchosen';
-    }
+=======
 
-/**
- * Calcutales angle between actual mouse position 
- * and center of the clock.
- * @param {number} xpos - x position of cursor
- * @param {number} ypos - y position of cursor
- */
-    function calculateAngle(xpos,ypos)
+    function setHour()
+>>>>>>> parent of db273de... Created basic documentation
     {
+        
+        xpos = this.event.clientX - canvas.width/2;
+        ypos = this.event.clientY - canvas.height/2;
+        
         if(xpos<0)
         {
             ang =  Math.atan(ypos/xpos)+Math.PI;
@@ -275,6 +308,38 @@ function chooseHand(xpos,ypos)
         else
         {
             ang =  Math.atan(ypos/xpos);
-        }
-        return ang;
+        }  
+        
+        hours = Math.round((6*ang)/Math.PI +3); 
+        
+        flag  = 'notchosen';
     }
+
+<<<<<<< HEAD
+/**
+ * Calcutales angle between actual mouse position 
+ * and center of the clock.
+ * @param {number} xpos - x position of cursor
+ * @param {number} ypos - y position of cursor
+ */
+    function calculateAngle(xpos,ypos)
+=======
+    function setMinute()
+>>>>>>> parent of db273de... Created basic documentation
+    {
+        xpos = this.event.clientX - canvas.width/2;
+        ypos = this.event.clientY - canvas.height/2;
+        
+        if(xpos<0)
+        {
+            ang =  Math.atan(ypos/xpos)+Math.PI;
+        }
+        else
+        {
+            ang =  Math.atan(ypos/xpos);
+        }  
+        minutes = Math.round((30*ang)/Math.PI +15);
+        flag  = 'notchosen';
+    }
+    
+}
