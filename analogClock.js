@@ -32,14 +32,39 @@ function ClockFace()
       ctx.restore();
     }
 
-     
-
-    
-
-    
-
 }
 
+/** Represtent tickmark of the clock
+ * 
+ * @param {any} opt Optional propierties of TickMark 
+ */
+function TickMark(opt)
+{
+  let self = this; 
+  self.lineWidth = 4;
+  self.style = 'black';
+  self.markposition = 350;
+  
+  self.angle = 0;
+
+  for (var key in opt)
+    self[key] = opt[key];
+
+  self.drawmark = function(ctx,radius)
+  {
+    ctx.save();     
+    ctx.lineWidth = self.lineWidth;            
+    ctx.beginPath();
+    let x1 =  Math.cos(self.angle) * radius;
+    let y1 =  Math.sin(self.angle) * radius;
+    let x2 =  Math.cos(self.angle) * self.markposition;
+    let y2 =  Math.sin(self.angle) * self.markposition;             
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();  
+    ctx.restore();
+  }
+}
 
 
 
