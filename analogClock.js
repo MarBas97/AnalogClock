@@ -6,7 +6,7 @@ let time = new Date;
 
 let cloockface = new ClockFace();
 cloockface.draw(ctx);
-
+cloockface.drawMarks(ctx);
 
 
 
@@ -31,6 +31,25 @@ function ClockFace()
       ctx.stroke();
       ctx.restore();
     }
+
+    self.drawMarks = function(ctx)
+    {
+      let tickmark;
+      let ang = 0;
+      const numberofmarks = 60; 
+      ctx.save();
+      let secondmarkposition = self.radius - self.radius / 30;
+      let hourdmarkposition = self.radius - self.radius / 15;  
+      for (var i = 0; i < numberofmarks; i++){
+        ang = i  * (Math.PI * 2) / numberofmarks; 
+        if(!(i%5==0))
+           tickmark = new TickMark({angle: ang, lineWidth: 2.5, markposition:secondmarkposition});
+        else
+           tickmark = new TickMark({angle: ang, lineWidth: 3.5, markposition:hourdmarkposition});  
+        tickmark.drawmark(ctx,self.radius);      
+    }
+        ctx.restore();
+  }
 
 }
 
