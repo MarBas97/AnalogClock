@@ -85,6 +85,33 @@ function TickMark(opt)
   }
 }
 
+/**
+ *  Represtent drawable number
+ * @param {any} opt Optional propierties of ClockNumber 
+ */
+function ClockNumber(opt)
+{
+  var self = this;
+
+  self.font  = 20 + "px arial";
+  self.textBaseline="middle";
+  self.textAlign="center";
+  self.number = 0;
+
+  for (var key in opt)
+    self[key] = opt[key];
+
+  self.drawnumber = function(ctx,x,y)
+  {
+    ctx.save();
+    ctx.font  = self.font;
+    ctx.textBaseline=self.textBaseline;
+    ctx.textAlign=self.textAlign;
+    ctx.fillText(self.number.toString(),x,y);
+    ctx.restore();
+  }
+}
+
 
 
 
