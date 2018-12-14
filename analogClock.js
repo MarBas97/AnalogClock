@@ -47,10 +47,24 @@ function ClockFace()
         else
            tickmark = new TickMark({angle: ang, lineWidth: 3.5, markposition:hourdmarkposition});  
         tickmark.drawmark(ctx,self.radius);      
+      }
+      ctx.restore();
     }
-        ctx.restore();
-  }
 
+    self.drawNumbers = function(ctx)
+    {     
+      let ang;
+      const numbers = 13;
+      const numberposition = self.radius*0.85;
+
+      for(let numbertodraw= 1; numbertodraw < numbers; num++){
+        ang = num * Math.PI / 6 - Math.PI / 2;       
+        let y1 = Math.sin(ang)*numberposition;
+        let x1 = Math.cos(ang)*numberposition;
+        let clocknumber = new ClockNumber({number: numbertodraw})  
+        clocknumber.drawnumber(ctx,x1,y1);
+    }
+    }
 }
 
 /** Represtent tickmark of the clock
