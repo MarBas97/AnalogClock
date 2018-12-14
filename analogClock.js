@@ -4,9 +4,10 @@ let ctx = canvas.getContext("2d");
 ctx.translate(canvas.height / 2, canvas.width/2); // sets point 0,0 in center of the canvas
 let time = new Date;
 
-let cloockface = new ClockFace();
-cloockface.draw(ctx);
-cloockface.drawMarks(ctx);
+let clockface = new ClockFace();
+clockface.draw(ctx);
+clockface.drawMarks(ctx);
+clockface.drawNumbers(ctx);
 
 
 
@@ -57,8 +58,8 @@ function ClockFace()
       const numbers = 13;
       const numberposition = self.radius*0.85;
 
-      for(let numbertodraw= 1; numbertodraw < numbers; num++){
-        ang = num * Math.PI / 6 - Math.PI / 2;       
+      for(let numbertodraw= 1; numbertodraw < numbers; numbertodraw++){
+        ang = numbertodraw * Math.PI / 6 - Math.PI / 2;       
         let y1 = Math.sin(ang)*numberposition;
         let x1 = Math.cos(ang)*numberposition;
         let clocknumber = new ClockNumber({number: numbertodraw})  
