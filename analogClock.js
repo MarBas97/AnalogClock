@@ -5,6 +5,16 @@ var ctx = self.canvas.getContext("2d");
 
 ctx.translate(canvas.height / 2, canvas.width/2); // sets point 0,0 in center of the canvas
 
+var clock = new Clock();
+clock.build();
+clock.renderIndicators();
+clock.update();
+
+
+
+
+
+
 
 function Clock()
 {
@@ -13,19 +23,39 @@ function Clock()
   self.clockface = new ClockFace();
   
   self.indicators = {
-    s: new Indicator({radius: 170, angle: 0}),
-    m: new Indicator({radius: 150, lineWidth: 2.75, angle: 100}),
+    s: new Indicator({radius: 165}),
+    m: new Indicator({radius: 150, lineWidth: 2.75}),
     h: new Indicator({radius: 100, lineWidth: 5, style: 'red'})
   }
-    
+  
+  self.angle = {
+    s: 0,
+    m: 0,
+    h: 0
+  };
 
 
   self.build = function(){
   self.clockface.draw(ctx);
   self.clockface.drawNumbers(ctx);
   self.clockface.drawMarks(ctx);
+  }
+
+  self.renderIndicators = function(){
+    let second = self.now.getSeconds();
+    let minute = self.now.getMinutes();
+    let hour = self.now.getHours();
   
-  
+    self.angle.s = (Math.PI * 2 * (second / 60)) - Math.PI / 2;
+    self.angle.m = (Math.PI * 2 * (minute / 60) + (second * Math.PI / (30 * 60))) - Math.PI / 2
+    self.angle.h = (Math.PI * 2 * (hour / 12) + (minute * Math.PI / (6 * 60)) + (second * Math.PI / (360 * 60))) - Math.PI / 2
+
+    self.indicators.s.angle = self.angle.s;
+    self.indicators.m.angle = self.angle.m;
+    self.indicators.h.angle = self.angle.h;
+    self.indicators.s.drawhand(ctx);
+    self.indicators.m.drawhand(ctx);
+    self.indicators.h.drawhand(ctx);
   }
   
   
@@ -35,29 +65,20 @@ function Clock()
     self.now = new Date();
     ctx.clearRect(-canvas.height / 2,-canvas.width/2,canvas.width,canvas.height);
     self.build();
-    let second = self.now.getSeconds();
-    let minute = self.now.getMinutes();
-    let hour = self.now.getHours();
-
-  let angle = {
-    s: (Math.PI * 2 * (second / 60)) - Math.PI / 2,
-    m: (Math.PI * 2 * (minute / 60) + (second * Math.PI / (30 * 60))) - Math.PI / 2,
-    h: (Math.PI * 2 * (hour / 12) + (minute * Math.PI / (6 * 60)) + (second * Math.PI / (360 * 60))) - Math.PI / 2
-  };
-  self.indicators.s.angle = angle.s;
-  self.indicators.m.angle = angle.m;
-  self.indicators.h.angle = angle.h;
-  self.indicators.s.drawhand(ctx);
-  self.indicators.m.drawhand(ctx);
-  self.indicators.h.drawhand(ctx);
+    self.angle.s += Math.PI / 30;
+    self.angle.m += Math.PI /1800;
+    self.angle.h += Math.PI / (360 * 60);
+    self.indicators.s.angle = self.angle.s;
+    self.indicators.s.drawhand(ctx);
+    self.indicators.m.angle = self.angle.m;
+    self.indicators.m.drawhand(ctx);
+    self.indicators.h.angle = self.angle.h;
+    self.indicators.h.drawhand(ctx);
     setTimeout(self.update,1000);
   }
 }
 
 
-let clock = new Clock();
-clock.build();
-clock.update();
 
 
 function ClockFace()
@@ -205,7 +226,30 @@ function Indicator(opt)
 }
 
 
+function AngleGetter(opt)
+{
+  var self = this;
 
+  self.xpos = 0;
+  self.ypos = 0;
+
+  for (var key in opt)
+    self[key] = opt[key];
+    
+  self.getAngle = function()
+  {
+    let angle;
+    if(self.xpos<0)
+        {
+          angle =  Math.atan(self.ypos/self.xpos)+Math.PI;
+        }
+        else
+        {
+          angle =  Math.atan(self.ypos/self.xpos);
+        } 
+        return angle;
+  }
+}
 
 
 
