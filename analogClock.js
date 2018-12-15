@@ -1,16 +1,61 @@
 
-let canvas = document.getElementById("canvas");
-let ctx = canvas.getContext("2d");
-ctx.translate(canvas.height / 2, canvas.width/2); // sets point 0,0 in center of the canvas
-let time = new Date;
-
-let clockface = new ClockFace();
-clockface.draw(ctx);
-clockface.drawMarks(ctx);
-clockface.drawNumbers(ctx);
+var canvas = document.getElementById("canvas");
+var ctx = self.canvas.getContext("2d");
 
 
+self.ctx.translate(canvas.height / 2, canvas.width/2); // sets point 0,0 in center of the canvas
 
+
+function Clock()
+{
+  var self = this;
+  self.now = new Date();
+  self.clockface = new ClockFace();
+  
+  self.indicators = {
+    s: new Indicator({radius:170,angle:0}),
+    m: new Indicator({radius:150,lineWidth:2.75,angle:100}),
+    h: new Indicator({radius:100, lineWidth:5, style:'red'})
+  }
+    
+
+
+  self.build = function(){
+  self.clockface.draw(ctx);
+  self.clockface.drawNumbers(ctx);
+  self.clockface.drawMarks(ctx);
+  
+  let angle = {
+    s: (Math.PI * 2* (self.now.getSeconds()/60)) - Math.PI/2,
+    m: (Math.PI * 2* (self.now.getMinutes()/60)) - Math.PI/2,
+    h: (Math.PI * 2* (self.now.getHours()/12)) - Math.PI/2
+  };
+  self.indicators.s.angle = angle.s;
+  self.indicators.m.angle = angle.m;
+  self.indicators.h.angle = angle.h;
+  self.indicators.s.drawhand(ctx);
+  self.indicators.m.drawhand(ctx);
+  self.indicators.h.drawhand(ctx);
+  }
+}
+let clock = new Clock();
+clock.build();
+
+// sets point 0,0 in center of the canvas
+// let time = new Date;
+
+// let clockface = new ClockFace();
+// clockface.draw(ctx);
+// clockface.drawMarks(ctx);
+// clockface.drawNumbers(ctx);
+
+// let secondhand = new Indicator({radius:200,angle:0});
+// let minutehand = new Indicator({radius:150,lineWidth:2.75,angle:100});
+// let hourhand = new Indicator({radius:100, lineWidth:5, style:'red'});
+
+// secondhand.drawhand(ctx);
+// minutehand.drawhand(ctx);
+// hourhand.drawhand(ctx);
 
 function ClockFace()
 {
@@ -21,6 +66,7 @@ function ClockFace()
     self.lineWidth = 4;
     self.style = 'black';
     self.radius = (ctx.canvas.height/2) * 0.9;
+    
 
     self.draw = function(ctx)
     {
@@ -127,6 +173,33 @@ function ClockNumber(opt)
   }
 }
 
+function Indicator(opt)
+{
+  var self = this;
+
+  self.lineWidth = 2;
+  self.angle = 20;
+  self.style = 'black';
+  self.radius =  (ctx.canvas.height/2)*0.8;
+
+  for (var key in opt)
+    self[key] = opt[key];
+    
+  self.drawhand = function(ctx)
+  {
+    let x = Math.cos(self.angle)*self.radius;
+    let y = Math.sin(self.angle)*self.radius;
+    
+    ctx.save();
+    ctx.beginPath();
+    ctx.strokeStyle = self.style;
+    ctx.lineWidth = self.lineWidth;
+    ctx.moveTo(0,0);
+    ctx.lineTo(x,y);
+    ctx.stroke();
+    ctx.restore();
+  }
+}
 
 
 
