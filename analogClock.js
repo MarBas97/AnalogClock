@@ -3,7 +3,7 @@ var canvas = document.getElementById("canvas");
 var ctx = self.canvas.getContext("2d");
 
 
-self.ctx.translate(canvas.height / 2, canvas.width/2); // sets point 0,0 in center of the canvas
+ctx.translate(canvas.height / 2, canvas.width/2); // sets point 0,0 in center of the canvas
 
 
 function Clock()
@@ -13,9 +13,9 @@ function Clock()
   self.clockface = new ClockFace();
   
   self.indicators = {
-    s: new Indicator({radius:170,angle:0}),
-    m: new Indicator({radius:150,lineWidth:2.75,angle:100}),
-    h: new Indicator({radius:100, lineWidth:5, style:'red'})
+    s: new Indicator({radius: 170, angle: 0}),
+    m: new Indicator({radius: 150, lineWidth: 2.75, angle: 100}),
+    h: new Indicator({radius: 100, lineWidth: 5, style: 'red'})
   }
     
 
@@ -25,10 +25,24 @@ function Clock()
   self.clockface.drawNumbers(ctx);
   self.clockface.drawMarks(ctx);
   
+  
+  }
+  
+  
+
+
+  self.update = function(){
+    self.now = new Date();
+    ctx.clearRect(-canvas.height / 2,-canvas.width/2,canvas.width,canvas.height);
+    self.build();
+    let second = self.now.getSeconds();
+    let minute = self.now.getMinutes();
+    let hour = self.now.getHours();
+
   let angle = {
-    s: (Math.PI * 2* (self.now.getSeconds()/60)) - Math.PI/2,
-    m: (Math.PI * 2* (self.now.getMinutes()/60)) - Math.PI/2,
-    h: (Math.PI * 2* (self.now.getHours()/12)) - Math.PI/2
+    s: (Math.PI * 2 * (second / 60)) - Math.PI / 2,
+    m: (Math.PI * 2 * (minute / 60) + (second * Math.PI / (30 * 60))) - Math.PI / 2,
+    h: (Math.PI * 2 * (hour / 12) + (minute * Math.PI / (6 * 60)) + (second * Math.PI / (360 * 60))) - Math.PI / 2
   };
   self.indicators.s.angle = angle.s;
   self.indicators.m.angle = angle.m;
@@ -36,26 +50,15 @@ function Clock()
   self.indicators.s.drawhand(ctx);
   self.indicators.m.drawhand(ctx);
   self.indicators.h.drawhand(ctx);
+    setTimeout(self.update,1000);
   }
 }
+
+
 let clock = new Clock();
 clock.build();
+clock.update();
 
-// sets point 0,0 in center of the canvas
-// let time = new Date;
-
-// let clockface = new ClockFace();
-// clockface.draw(ctx);
-// clockface.drawMarks(ctx);
-// clockface.drawNumbers(ctx);
-
-// let secondhand = new Indicator({radius:200,angle:0});
-// let minutehand = new Indicator({radius:150,lineWidth:2.75,angle:100});
-// let hourhand = new Indicator({radius:100, lineWidth:5, style:'red'});
-
-// secondhand.drawhand(ctx);
-// minutehand.drawhand(ctx);
-// hourhand.drawhand(ctx);
 
 function ClockFace()
 {
@@ -76,7 +79,7 @@ function ClockFace()
       ctx.strokeStyle = self.style;
       ctx.arc(0, 0, self.radius, 0 , 2 * Math.PI);
       ctx.stroke();
-      ctx.restore();
+      ctx.restore();     
     }
 
     self.drawMarks = function(ctx)
