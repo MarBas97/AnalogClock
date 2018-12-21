@@ -8,7 +8,10 @@ canvas.addEventListener('mousedown', onMouseDownEvent);
 canvas.addEventListener('mouseup', onMouseUpEvent);
   
   
-
+/**
+ * Calculates if minute or hour indicator is in the place
+ * where user clicked. If yes, sets corresponding indicator
+ */
 function onMouseDownEvent()
 {
   let clickedTime = calculateClickedTime();
@@ -21,7 +24,11 @@ function onMouseDownEvent()
   if((clickedTime[1] < hour + threshold) && (clickedTime[1] > hour - threshold))   // easier to click on hand     
       clock.hourTimeChanger.highlightIndicator('red');                 
 }
-
+/**
+ * If any indicator has been clicked on, changes time to time
+ * given by cursor position
+ * 
+ */
 function onMouseUpEvent()
 {
   let ag = new AngleGetter({xpos: event.clientX - canvas.width/2, ypos: event.clientY - canvas.width/2})
@@ -31,6 +38,10 @@ function onMouseUpEvent()
     clock.hourTimeChanger.changeTime(ag.getAngle());
 }
 
+/**
+ * Calculates the place on the clock face, 
+ * where the mouse was clicked 
+ */
 function calculateClickedTime()
 {
   let time = [];
@@ -40,7 +51,10 @@ function calculateClickedTime()
   time.push((6 * ang) / (Math.PI + 3));
   return time;
 }
-
+/**
+ *  Resresnt clock
+ * @class
+ * */
 function Clock()
 {
   var self = this;
@@ -63,7 +77,10 @@ function Clock()
     h: 0
   };
 
-
+/**
+ * Building clock face
+ * @method buildFace
+ */
   self.buildFace = function() 
   {
     self.clockface.draw(ctx);
@@ -71,6 +88,10 @@ function Clock()
     self.clockface.drawMarks(ctx);
   }
 
+  /**
+   * Render indicators. Angle is given by actual time and offset given by 
+   * time changer.
+   */
   self.renderIndicators = function() 
   {
     
@@ -94,7 +115,9 @@ function Clock()
     self.indicators.h.drawhand(ctx);
   }
   
-  
+  /**
+   * Every 500ms clear canvas and render new face and indicators
+   */
   self.update = function() 
   {
     self.now = new Date();
@@ -105,16 +128,24 @@ function Clock()
   }
 }
 
-
+/**
+ * Represents basic clock face
+ * @class
+ */
 function ClockFace()
 {
   let self = this;
 
-  //default properties 
+  
   self.lineWidth = 4;
   self.style = 'black';
   self.radius = (ctx.canvas.height / 2) * 0.9;
     
+  /**
+         * Draw circle by given radius and lineWidth
+         * @memberof ClockFace
+         * @param {any} ctx - 2d context of canvas 
+         */
   self.draw = function(ctx)
   {
     ctx.save();
@@ -165,11 +196,13 @@ function ClockFace()
 /** Represtent tickmark of the clock
  * 
  * @param {any} opt Optional propierties of TickMark 
+ * @class
  */
 function TickMark(opt)
 {
   let self = this; 
   
+  //default properties 
   self.lineWidth = 4;
   self.style = 'black';
   self.markPosition = 350;
@@ -197,11 +230,13 @@ function TickMark(opt)
 /**
  *  Represtent drawable number
  * @param {any} opt Optional propierties of ClockNumber 
+ * @class
  */
 function ClockNumber(opt)
 {
   var self = this;
 
+  //default properties 
   self.font = 20 + "px arial";
   self.textBaseline = "middle";
   self.textAlign = "center";
@@ -224,11 +259,13 @@ function ClockNumber(opt)
 /**
  * Represent clock hand  (indicator).
  * @param {any} opt  Optional propierties of Indicator.
+ * @class
  */
 function Indicator(opt)
 {
   var self = this;
 
+  //default properties 
   self.lineWidth = 2;
   self.angle = 20;
   self.style = 'black';
@@ -258,12 +295,14 @@ function Indicator(opt)
  * Represents object with calculate angle between center point and 
  * point determined by xpos and ypos.
  * @param {any} opt Optional propierties of AngleGetter 
+ * @class
  */
 
 function AngleGetter(opt)
 {
   var self = this;
 
+  //default properties 
   self.xpos = 0;
   self.ypos = 0;
 
@@ -284,12 +323,15 @@ function AngleGetter(opt)
 /**
  * Represents object with is responsible for 
  * changing time on the clock
+ * @class
  * @param {any} opt Optional propierties of TimeChanger
+ * 
  */
 function TimeChanger(opt)
 {
   var self = this;
-
+ 
+  //default properties 
   self.indicator = 0;
   self.offset = 0;
   self.isTriggered = false;
