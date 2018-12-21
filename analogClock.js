@@ -142,10 +142,10 @@ function ClockFace()
   self.radius = (ctx.canvas.height / 2) * 0.9;
     
   /**
-         * Draw circle by given radius and lineWidth
-         * @memberof ClockFace
-         * @param {any} ctx - 2d context of canvas 
-         */
+  * Draw circle by given radius and lineWidth
+  * @memberof ClockFace
+  * @param {any} ctx - 2d context of canvas 
+  */
   self.draw = function(ctx)
   {
     ctx.save();
@@ -157,11 +157,17 @@ function ClockFace()
     ctx.restore();     
   }
 
+  /**
+   * Draw constant (60) amount of tickMarks 
+   * on 2pi circumference
+   * @memberof ClockFace
+   * @param {any} ctx - 2d context of canvas 
+   */
   self.drawMarks = function(ctx)
   {
+    const numberOfMarks = 60; 
     let tickMark;
     let ang = 0;
-    const numberOfMarks = 60; 
     let secondMarkPosition = self.radius - self.radius / 30;
     let hourdMarkPosition = self.radius - self.radius / 15;  
 
@@ -177,6 +183,12 @@ function ClockFace()
     ctx.restore();
     }
 
+  /**
+   * Draw constant (12) amount of clockNumbers 
+   * on 2pi circumference
+   * @memberof ClockFace
+   * @param {any} ctx - 2d context of canvas 
+   */
     self.drawNumbers = function(ctx)
     {     
       let ang;
@@ -211,6 +223,14 @@ function TickMark(opt)
   for (var key in opt)
     self[key] = opt[key];
 
+  /**
+   * Draw constant (12) amount of clockNumbers 
+   * on 2pi circumference. It's important to set
+   * radius the same as radius of the clock
+   * @memberof TickMark
+   * @param {any} ctx - 2d context of canvas 
+   * @param {number} radius - radius of the clock
+   */
   self.drawMark = function(ctx,radius)
   {
     ctx.save();     
@@ -245,6 +265,14 @@ function ClockNumber(opt)
   for (var key in opt)
     self[key] = opt[key];
 
+  /**
+   * Draw number on canvas in position 
+   * given by x and y.
+   * @memberof ClockNumber
+   * @param {any} ctx - 2d context of canvas 
+   * @param {x} radius - x position of number on canvas
+   * @param {y} radius - y position of number on canvas
+   */
   self.drawnumber = function(ctx, x, y)
   {
     ctx.save();
@@ -261,6 +289,7 @@ function ClockNumber(opt)
  * @param {any} opt  Optional propierties of Indicator.
  * @class
  */
+
 function Indicator(opt)
 {
   var self = this;
@@ -269,15 +298,23 @@ function Indicator(opt)
   self.lineWidth = 2;
   self.angle = 20;
   self.style = 'black';
-  self.radius =  (ctx.canvas.height / 2) * 0.8;
+  self.length =  (ctx.canvas.height / 2) * 0.8;
 
   for (var key in opt)
     self[key] = opt[key];
-    
+  
+/**
+   * Draw a Indicator from (0,0) point on the canvas
+   * with given length
+   * 
+   * @memberof Indicator
+   * @param {any} ctx - 2d context of canvas 
+   
+   */
   self.drawhand = function(ctx)
   {
-    let x = Math.cos(self.angle) * self.radius;
-    let y = Math.sin(self.angle) * self.radius;
+    let x = Math.cos(self.angle) * self.length;
+    let y = Math.sin(self.angle) * self.length;
     
     ctx.save();
     ctx.beginPath();
