@@ -20,10 +20,13 @@ function onMouseDownEvent()
   let hour  = (6 * clock.indicators.h.angle) / (Math.PI + 3);
   let threshold = 0.25;
 
-  if((clickedTime[0] < minute + threshold) && (clickedTime[0] > minute - threshold))  // threshold makes it easier to click  on hand   
-      clock.minuteTimeChanger.highlightIndicator('red');              
+  if((clickedTime[0] < minute + threshold) && (clickedTime[0] > minute - threshold))
+  {
+    clock.minuteTimeChanger.highlightIndicator('red');   // threshold makes it easier to click  on hand           
+    return;
+  }     
   if((clickedTime[1] < hour + threshold) && (clickedTime[1] > hour - threshold))    
-      clock.hourTimeChanger.highlightIndicator('red');                 
+    clock.hourTimeChanger.highlightIndicator('red');                 
 }
 
 /**
