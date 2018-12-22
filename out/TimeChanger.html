@@ -49,7 +49,7 @@
 
 
 <div class="description">
-    Represents object with is responsible for changing time on the clock
+    Represents object which is responsible for changing time on the clock
 </div>
 
 
@@ -142,7 +142,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="analogclock.js.html">analogclock.js</a>, <a href="analogclock.js.html#line367">line 367</a>
+        <a href="analogclock.js.html">analogclock.js</a>, <a href="analogclock.js.html#line373">line 373</a>
     </li></ul></dd>
     
 
@@ -188,6 +188,280 @@
     
 
     
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".self.changeTime"><span class="type-signature">(static) </span>self.changeTime<span class="signature">(angle)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Increases offset by difference of param angle and actual indicatorangle. Sets color of the indicator on its previous color (before click)and sets isTriggered flag on flase.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>angle</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">angle in radians</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="analogclock.js.html">analogclock.js</a>, <a href="analogclock.js.html#line406">line 406</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".self.highlightIndicator"><span class="type-signature">(static) </span>self.highlightIndicator<span class="signature">(color)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Changes color of indicator color and sets isTriggerdflag on true. Enables to grab the Indicator.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">indicator color will be change to this color</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="analogclock.js.html">analogclock.js</a>, <a href="analogclock.js.html#line392">line 392</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
 
     
 
@@ -202,13 +476,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AngleGetter.html">AngleGetter</a></li><li><a href="Clock.html">Clock</a></li><li><a href="ClockFace.html">ClockFace</a></li><li><a href="ClockNumber.html">ClockNumber</a></li><li><a href="Indicator.html">Indicator</a></li><li><a href="TickMark.html">TickMark</a></li><li><a href="TimeChanger.html">TimeChanger</a></li></ul><h3>Global</h3><ul><li><a href="global.html#buildFace">buildFace</a></li><li><a href="global.html#calculateClickedTime">calculateClickedTime</a></li><li><a href="global.html#onMouseDownEvent">onMouseDownEvent</a></li><li><a href="global.html#onMouseUpEvent">onMouseUpEvent</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AngleGetter.html">AngleGetter</a></li><li><a href="Clock.html">Clock</a></li><li><a href="ClockFace.html">ClockFace</a></li><li><a href="ClockNumber.html">ClockNumber</a></li><li><a href="Indicator.html">Indicator</a></li><li><a href="TickMark.html">TickMark</a></li><li><a href="TimeChanger.html">TimeChanger</a></li></ul><h3>Global</h3><ul><li><a href="global.html#calculateClickedTime">calculateClickedTime</a></li><li><a href="global.html#onMouseDownEvent">onMouseDownEvent</a></li><li><a href="global.html#onMouseUpEvent">onMouseUpEvent</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Dec 21 2018 01:47:25 GMT+0100 (GMT+01:00)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Dec 22 2018 02:06:00 GMT+0100 (GMT+01:00)
 </footer>
 
 <script> prettyPrint(); </script>

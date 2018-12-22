@@ -10,7 +10,7 @@ canvas.addEventListener('mouseup', onMouseUpEvent);
   
 /**
  * Calculates if minute or hour indicator is in the place
- * where user clicked. If yes, sets corresponding indicator
+ * where user clicked. If true, enables to change position of corresponding indicator
  */
 function onMouseDownEvent()
 {
@@ -27,7 +27,6 @@ function onMouseDownEvent()
 /**
  * If any indicator has been clicked on, changes time to time
  * given by cursor position
- * 
  */
 function onMouseUpEvent()
 {
@@ -52,7 +51,7 @@ function calculateClickedTime()
   return time;
 }
 /**
- *  Resresnt clock
+ *  Represents analogue clock
  * @class
  * */
 function Clock()
@@ -80,6 +79,7 @@ function Clock()
 /**
  * Building clock face
  * @method buildFace
+ * @memberof Clock
  */
   self.buildFace = function() 
   {
@@ -91,6 +91,7 @@ function Clock()
   /**
    * Render indicators. Angle is given by actual time and offset given by 
    * time changer.
+   * @memberof Clock
    */
   self.renderIndicators = function() 
   {
@@ -117,6 +118,7 @@ function Clock()
   
   /**
    * Every 500ms clear canvas and render new face and indicators
+   * @memberof Clock 
    */
   self.update = function() 
   {
@@ -131,11 +133,14 @@ function Clock()
 /**
  * Represents basic clock face
  * @class
+ * @param {any} opt optional Clock parameters
  */
-function ClockFace()
+function ClockFace(opt)
 {
   let self = this;
 
+  for (var key in opt)
+    self[key] = opt[key];
   
   self.lineWidth = 4;
   self.style = 'black';
@@ -304,13 +309,11 @@ function Indicator(opt)
     self[key] = opt[key];
   
 /**
-   * Draw a Indicator from (0,0) point on the canvas
-   * with given length
-   * 
-   * @memberof Indicator
-   * @param {any} ctx - 2d context of canvas 
-   
-   */
+* Draw a Indicator from (0,0) point on the canvas
+* which given length
+* @memberof Indicator
+* @param {any} ctx - 2d context of canvas 
+*/
   self.drawhand = function(ctx)
   {
     let x = Math.cos(self.angle) * self.length;
@@ -334,7 +337,6 @@ function Indicator(opt)
  * @param {any} opt Optional propierties of AngleGetter 
  * @class
  */
-
 function AngleGetter(opt)
 {
   var self = this;
@@ -345,7 +347,12 @@ function AngleGetter(opt)
 
   for (var key in opt)
     self[key] = opt[key];
-    
+  
+  /**
+   * Calculates angle between center of the canvas and point given
+   * by x and y.
+   * @memberof AngleGetter
+   */
   self.getAngle = function()
   {
     let angle;
@@ -358,11 +365,10 @@ function AngleGetter(opt)
 }
 
 /**
- * Represents object with is responsible for 
+ * Represents object which is responsible for 
  * changing time on the clock
  * @class
- * @param {any} opt Optional propierties of TimeChanger
- * 
+ * @param {any} opt Optional propierties of TimeChanger 
  */
 function TimeChanger(opt)
 {
@@ -377,6 +383,12 @@ function TimeChanger(opt)
   for (var key in opt)
     self[key] = opt[key];
 
+  /**
+  * Changes color of indicator color and sets isTriggerd
+  * flag on true. Enables to grab the Indicator.
+  * @param {string} color - indicator color will be change to this color
+  * @memberof TimeChanger
+  */
   self.highlightIndicator = function(color)
   {
     self.previousIndicatorColor = self.indicator.style;
@@ -384,6 +396,13 @@ function TimeChanger(opt)
     self.isTriggered = true;
   }
 
+  /**
+  * Increases offset by difference of param angle and actual indicator
+  * angle. Sets color of the indicator on its previous color (before click)
+  * and sets isTriggered flag on false.
+  * @param {number} angle - angle in radians
+  * @memberof TimeChanger
+  */
   self.changeTime = function(angle)
   {
     self.offset += angle - self.indicator.angle;
